@@ -16,7 +16,7 @@ class CursosForm extends State<Cursos>{
   var isLoading=false;
   List dataCursos;
 
-  Future<String> gerCursos() async{
+  Future<String> getCursos() async{
     this.setState((){
       isLoading=true;
     });
@@ -32,8 +32,12 @@ class CursosForm extends State<Cursos>{
   }
 
   @override
+  void initState(){
+    getCursos();
+  }
+
+  @override
   Widget build(BuildContext context){
-    gerCursos();
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -67,19 +71,16 @@ class CursosForm extends State<Cursos>{
                               ),
                               child: Icon(Icons.language, color: Colors.black)
                             ),
-                          
                             title: Text(
                                 dataCursos[index]['name'],
                                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                             ),
-
                             subtitle: Row(
                               children: <Widget>[
                                 //Icon(Icons.touch_app, color: Colors.yellowAccent),
                                 Text(dataCursos[index]['despription'], style: TextStyle(color: Colors.black))
                               ],
                             ),
-
                             trailing: Icon(Icons.keyboard_arrow_right, color: Colors.black, size: 30.0,),
                           ),
                         ),
