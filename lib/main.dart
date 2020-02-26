@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'login.dart';
+import 'dashboard.dart';
+import 'cursos.dart';
 
 void main()=>runApp(Splash());
 
@@ -17,8 +19,8 @@ class SplashForm extends State<Splash>{
     return MaterialApp(
       routes: {
         '/login' : (context)=>Login(),
-      //   '/dash' : (context)=>Dash(),
-      //   '/course' : (context)=>Course(),
+        '/dashboard' : (context)=>Dashboard(),
+        '/course' : (context)=>Cursos(),
       },
       home: SplashScreen(
         seconds: 3,

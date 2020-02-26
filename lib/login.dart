@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dashboard.dart';
 
 class Login extends StatelessWidget{
   @override
@@ -28,6 +29,45 @@ class Login extends StatelessWidget{
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(45.0))
       ),
     );
+
+    final loginButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        onPressed: () {
+//          var codigo = await validateUser();
+          //print(codigo);
+//          if( codigo == 200 ){
+            Navigator.push(context, MaterialPageRoute(builder:(context)=>Dashboard()));
+//            Navigator.pushReplacementNamed(context, "/course");
+//          }else{
+//            showDialog(
+//                context: context,
+//                builder: (BuildContext context){
+//                  return AlertDialog(
+//                    title: Text("Mensaje de la APP"),
+//                    content: Text("Error al Autenticarse"),
+//                    actions: <Widget>[
+//                      new FlatButton(
+//                        child: Text("Cerrar"),
+//                        onPressed: (){
+//                          Navigator.of(context).pop();
+//                        },
+//                      )
+//                    ],
+//                  );
+//                }
+//            );
+//          }
+        },
+        padding: EdgeInsets.all(12),
+        color: Colors.lightBlue,
+        child: Text('Entrar', style: TextStyle(color: Colors.white)),
+      ),
+    );
+
     return MaterialApp(
 
       home:  Scaffold(
@@ -46,6 +86,8 @@ class Login extends StatelessWidget{
               SizedBox(height: 30),
               txtPwd,
               SizedBox(height: 30),
+              loginButton,
+
             ],
           ),
         ),

@@ -19,7 +19,7 @@ class CursosForm extends State<Cursos>{
       isLoading=true;
     });
     var response=await http.get(
-      Uri.encodeFull("http://192.168.43.153:8888/courses"),
+      Uri.encodeFull("http://192.168.100.17:8888/courses"),
       headers: {"Acept": "application/json"}
     );
     this.setState((){
@@ -39,13 +39,43 @@ class CursosForm extends State<Cursos>{
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Cursos"),
+          title: Text("Courses"),
           backgroundColor: Colors.greenAccent,
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add_circle),
           onPressed: (){
             //Accion del boton
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  title: Text("New Course"),
+                  content: Form(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        TextField(
+                          decoration: InputDecoration(hintText: "Name of Course"),
+                        ),
+                        TextField(
+                          decoration: InputDecoration(hintText: "Description of Course"),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 20, right: 20),
+                          child: RaisedButton(
+                            child: Text("Save Course"),
+                            onPressed: (){
+
+                            }
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }
+            );
           },
         ),
         body: isLoading ? Center(child: CircularProgressIndicator(),)
