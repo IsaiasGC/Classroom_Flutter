@@ -13,6 +13,8 @@ class Cursos extends StatefulWidget{
 class CursosForm extends State<Cursos>{
   var isLoading=false;
   List dataCursos;
+  TextEditingController txtName=TextEditingController();
+  TextEditingController txtDesc=TextEditingController();
 
   Future<String> getCursos() async{
     this.setState((){
@@ -27,6 +29,24 @@ class CursosForm extends State<Cursos>{
       dataCursos=json.decode(response.body);
     });
     return "Accept";
+  }
+  Future<int> insCurso() async{
+    this.setState((){
+      isLoading=true;
+    });
+    var name=txtName.text;
+    var desc=txtDesc.text;
+
+    Map<String, String> headers={"Content-type":"application/json"};
+    String cadJSON='{"name":"$name,"description":"$desc"}';
+
+    var response=await http.post(
+      Uri.encodeFull("http://192.168.100.17:8888/courses"),
+      headers: headers,
+      body: cadJSON
+    );
+
+    getCursos();
   }
 
   @override
@@ -56,9 +76,11 @@ class CursosForm extends State<Cursos>{
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         TextField(
+                          controller: txtName,
                           decoration: InputDecoration(hintText: "Name of Course"),
                         ),
                         TextField(
+                          controller: txtDesc,
                           decoration: InputDecoration(hintText: "Description of Course"),
                         ),
                         Padding(
@@ -66,7 +88,7 @@ class CursosForm extends State<Cursos>{
                           child: RaisedButton(
                             child: Text("Save Course"),
                             onPressed: (){
-
+                              insCurso();
                             }
                           ),
                         )

@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
-import 'dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Login extends StatelessWidget{
+class Login extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState(){
+    return LoginForm();
+  }
+}
+
+class LoginForm extends State<Login>{
+  var checked=false;
+  
+  isLoged(BuildContext context) async{
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    bool loged=(pref.getBool('loged')??false);
+    if(loged){
+      Navigator.pushReplacementNamed(context, "/dashboard");
+    }
+  }
+  login(BuildContext context) async{
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    
+    await pref.setBool('loged', checked);
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    isLoged(context);
     final txtUserController = TextEditingController();
     final txtPwdController = TextEditingController();
     final logo = CircleAvatar(
@@ -29,7 +51,17 @@ class Login extends StatelessWidget{
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(45.0))
       ),
     );
-
+    final check=Checkbox(
+      value: checked, 
+      onChanged: (bool val){
+        setState((){
+          checked=val;
+        });
+      },
+      tristate: false,
+      activeColor: Colors.pink,
+      checkColor: Colors.white,
+    );
     final loginButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: RaisedButton(
@@ -40,8 +72,9 @@ class Login extends StatelessWidget{
 //          var codigo = await validateUser();
           //print(codigo);
 //          if( codigo == 200 ){
-            Navigator.push(context, MaterialPageRoute(builder:(context)=>Dashboard()));
-//            Navigator.pushReplacementNamed(context, "/course");
+            // Navigator.push(context, MaterialPageRoute(builder:(context)=>Dashboard()));
+            login(context);
+            Navigator.pushReplacementNamed(context, "/dashboard");
 //          }else{
 //            showDialog(
 //                context: context,
@@ -85,7 +118,15 @@ class Login extends StatelessWidget{
               txtUser,
               SizedBox(height: 30),
               txtPwd,
-              SizedBox(height: 30),
+              SizedBox(height: 10),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  check,
+                  Text("Mantener Sesion", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),),
+                ],
+              ),
+              SizedBox(height: 10,),
               loginButton,
 
             ],

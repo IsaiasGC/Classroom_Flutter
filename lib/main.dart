@@ -7,6 +7,7 @@ import 'cursos.dart';
 void main()=>runApp(Splash());
 
 class Splash extends StatefulWidget{
+  var uri="http://192.168.100.17:8888/";
   @override
   State<StatefulWidget> createState(){
     return SplashForm();
