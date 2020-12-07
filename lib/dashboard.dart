@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:classroom_flutter/cursos.dart';
 
 class Dashboard extends StatelessWidget{
   @override
@@ -23,7 +22,7 @@ class Dashboard extends StatelessWidget{
               ),
               ListTile(
                 title: Text("Cursos"),
-                leading: Icon(Icons.golf_course),
+                leading: Icon(Icons.class_),
                 trailing: Icon(Icons.arrow_right),
                 onTap: (){
                   // Navigator.push(context, MaterialPageRoute(builder:(context)=>Cursos()));

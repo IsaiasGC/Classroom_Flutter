@@ -11,22 +11,13 @@ class Login extends StatefulWidget{
 class LoginForm extends State<Login>{
   var checked=false;
   
-  isLoged(BuildContext context) async{
+  Future login() async{
     SharedPreferences pref=await SharedPreferences.getInstance();
-    bool loged=(pref.getBool('loged')??false);
-    if(loged){
-      Navigator.pushReplacementNamed(context, "/dashboard");
-    }
-  }
-  login(BuildContext context) async{
-    SharedPreferences pref=await SharedPreferences.getInstance();
-    
     await pref.setBool('loged', checked);
   }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    isLoged(context);
     final txtUserController = TextEditingController();
     final txtPwdController = TextEditingController();
     final logo = CircleAvatar(
@@ -73,26 +64,26 @@ class LoginForm extends State<Login>{
           //print(codigo);
 //          if( codigo == 200 ){
             // Navigator.push(context, MaterialPageRoute(builder:(context)=>Dashboard()));
-            login(context);
+            login();
             Navigator.pushReplacementNamed(context, "/dashboard");
 //          }else{
-//            showDialog(
-//                context: context,
-//                builder: (BuildContext context){
-//                  return AlertDialog(
-//                    title: Text("Mensaje de la APP"),
-//                    content: Text("Error al Autenticarse"),
-//                    actions: <Widget>[
-//                      new FlatButton(
-//                        child: Text("Cerrar"),
-//                        onPressed: (){
-//                          Navigator.of(context).pop();
-//                        },
-//                      )
-//                    ],
-//                  );
-//                }
-//            );
+          //  showDialog(
+          //      context: context,
+          //      builder: (BuildContext context){
+          //        return AlertDialog(
+          //          title: Text("Mensaje de la APP"),
+          //          content: Text("Error al Autenticarse, Lodged: " + checked.toString()),
+          //          actions: <Widget>[
+          //            new FlatButton(
+          //              child: Text("Cerrar"),
+          //              onPressed: (){
+          //                Navigator.of(context).pop();
+          //              },
+          //            )
+          //          ],
+          //        );
+          //      }
+          //  );
 //          }
         },
         padding: EdgeInsets.all(12),

@@ -21,8 +21,11 @@ class CursosForm extends State<Cursos>{
       isLoading=true;
     });
     var response=await http.get(
-      Uri.encodeFull("http://192.168.100.17:8888/courses"),
-      headers: {"Acept": "application/json"}
+      Uri.encodeFull("http://192.168.101.17:8888/courses"),
+      headers: {
+        "Acept": "application/json",
+        "Authorization": "bear"
+      }
     );
     this.setState((){
       isLoading=false;
@@ -37,11 +40,35 @@ class CursosForm extends State<Cursos>{
     var name=txtName.text;
     var desc=txtDesc.text;
 
-    Map<String, String> headers={"Content-type":"application/json"};
+    Map<String, String> headers={
+        "Acept": "application/json",
+        "Authorization": "bear"
+      };
     String cadJSON='{"name":"$name,"description":"$desc"}';
 
     var response=await http.post(
       Uri.encodeFull("http://192.168.100.17:8888/courses"),
+      headers: headers,
+      body: cadJSON
+    );
+
+    getCursos();
+  }
+  Future<int> updateCurso(int id) async{
+    this.setState((){
+      isLoading=true;
+    });
+    var name=txtName.text;
+    var desc=txtDesc.text;
+
+    Map<String, String> headers={
+        "Acept": "application/json",
+        "Authorization": "bear"
+      };
+    String cadJSON='{"name":"$name,"description":"$desc"}';
+
+    var response=await http.put(
+      Uri.encodeFull("http://192.168.100.17:8888/courses$id"),
       headers: headers,
       body: cadJSON
     );
@@ -135,6 +162,58 @@ class CursosForm extends State<Cursos>{
                           ),
                         ),
                     ),
+                    actions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Edit',
+                        color: Color.fromARGB(255, 23, 162, 184),
+                        icon: Icons.edit,
+                        onTap: () => {
+                          txtName=dataCursos[index]['name'],
+                          txtDesc=dataCursos[index]['description'],
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              // return object of type Dialog
+                              return AlertDialog(
+                                title: Text("Update Course"),
+                                content: Form(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      TextField(
+                                        controller: txtName,
+                                        decoration: InputDecoration(hintText: "Name of Course"),
+                                      ),
+                                      TextField(
+                                        controller: txtDesc,
+                                        decoration: InputDecoration(hintText: "Description of Course"),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 20, right: 20),
+                                        child: RaisedButton(
+                                          child: Text("update Course"),
+                                          onPressed: (){
+                                            updateCurso(dataCursos[index]['description']);
+                                          }
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        },
+                      ),
+                    ],
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Eliminar',
+                        color: Color.fromARGB(255, 52, 58, 64),
+                        icon: Icons.delete_outline,
+                        onTap: () => {}
+                      )
+                    ],
                   );
                 },
         ),
